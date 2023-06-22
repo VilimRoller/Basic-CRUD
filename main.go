@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	expenses "github.com/VilimRoller/Basic-CRUD/data"
-
 	"github.com/VilimRoller/Basic-CRUD/utils"
+
+	expenses "github.com/VilimRoller/Basic-CRUD/data"
 )
 
 func main() {
@@ -26,4 +26,7 @@ func main() {
 	if expense1 == expense2 {
 		fmt.Println("It works!")
 	}
+
+	utils.RegisterEndpoints()
+
 }
