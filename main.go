@@ -22,6 +22,8 @@ func main() {
 	utils.SetExpense(redisClient, "12345", expense1)
 
 	expense2 := utils.GetExpense(redisClient, "12345")
+	expense3 := utils.GetExpense(redisClient, "123456")
+	fmt.Println(expense3)
 
 	if expense1 == expense2 {
 		fmt.Println("It works!")

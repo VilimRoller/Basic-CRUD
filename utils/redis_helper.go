@@ -11,7 +11,6 @@ import (
 )
 
 func GetDefaultRedisClient() *redis.Client {
-	fmt.Println("Default redis client")
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
@@ -22,25 +21,22 @@ func GetDefaultRedisClient() *redis.Client {
 }
 
 func SetExpense(redisClient *redis.Client, key string, expense expenses.Expense) {
-	fmt.Println("ntering SET")
 	jsonVal, err := json.Marshal(expense)
 	if err != nil {
-		//fmt.Println(err)
+		fmt.Println(err)
 	}
 
 	err = redisClient.Set(key, jsonVal, 0).Err()
 
 	if err != nil {
-		//fmt.Println(err)
+		fmt.Println(err)
 	}
 }
 
 func GetExpense(redisClient *redis.Client, key string) expenses.Expense {
-	fmt.Println("ntering GET")
 	returnValueString, err := redisClient.Get(key).Result()
 
 	if err != nil {
-		//fmt.Println(err)
 		return expenses.EmptyExpense
 	}
 
@@ -49,7 +45,7 @@ func GetExpense(redisClient *redis.Client, key string) expenses.Expense {
 	err = json.Unmarshal([]byte(returnValueString), &returnValue)
 
 	if err != nil {
-		//fmt.Println(err)
+		fmt.Println(err)
 		return expenses.EmptyExpense
 	}
 

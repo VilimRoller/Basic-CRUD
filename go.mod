@@ -3,6 +3,11 @@ module github.com/VilimRoller/Basic-CRUD
 go 1.18
 
 require (
-	github.com/VilimRoller/Basic-CRUD/utils v0.0.0-20230622124916-254a70c0994c // indirect
-	github.com/go-redis/redis v6.15.9+incompatible // indirect
+	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/gorilla/mux v1.8.0
+)
+
+require (
+	github.com/onsi/ginkgo v1.16.5 // indirect
+	github.com/onsi/gomega v1.27.8 // indirect
 )
