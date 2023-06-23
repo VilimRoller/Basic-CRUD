@@ -1,16 +1,12 @@
 package utils
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/VilimRoller/Basic-CRUD/data"
-
 	"github.com/go-redis/redis"
-
-	"encoding/json"
-
-	"errors"
-
 	"github.com/google/uuid"
 )
 
