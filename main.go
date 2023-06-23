@@ -5,28 +5,30 @@ import (
 
 	"github.com/VilimRoller/Basic-CRUD/utils"
 
-	expenses "github.com/VilimRoller/Basic-CRUD/data"
+	"github.com/VilimRoller/Basic-CRUD/data"
 )
 
 func main() {
-	expense1 := expenses.Expense{
-		Name:     "Bread",
-		Date:     "01-06-2023",
-		Type:     expenses.Food,
-		Amount:   1.4,
+	expense1 := data.Expense{
+		Name:     "Milk",
+		Date:     "01-07-2023",
+		Type:     data.Food,
+		Amount:   2,
 		Currency: "EUR",
 	}
 
 	redisClient := utils.GetDefaultRedisClient()
 
-	utils.SetExpense(redisClient, "12345", expense1)
+	key1, _ := utils.SetExpense(redisClient, &expense1)
 
-	expense2 := utils.GetExpense(redisClient, "12345")
+	fmt.Println(key1)
+
+	expense2, _ := utils.GetExpense(redisClient, key1)
 
 	if expense1 == expense2 {
 		fmt.Println("It works!")
 	}
 
-	utils.RegisterEndpoints()
+	utils.RegisterEndpoints(redisClient)
 
 }
