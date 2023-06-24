@@ -10,6 +10,7 @@ import (
 type ExpenseType int
 
 const (
+	BadType        ExpenseType = 0
 	Food           ExpenseType = 1
 	Cleaning       ExpenseType = 2
 	Utilities      ExpenseType = 3
@@ -23,7 +24,7 @@ const (
 var EmptyExpense Expense = Expense{
 	Name:     "",
 	Date:     "",
-	Type:     Other,
+	Type:     BadType,
 	Amount:   0,
 	Currency: "",
 }
@@ -64,7 +65,33 @@ func GetExpenseFromString(inputStr string) (Expense, error) {
 		}
 	}
 
+	err := checkIfAllFieldsAreFilled(&returnVal)
+
+	if err != nil {
+		return returnVal, err
+	}
+
 	return returnVal, nil
+}
+
+func checkIfAllFieldsAreFilled(expense *Expense) error {
+	if expense.Name == "" {
+		return errors.New("checkIfAllFieldsAreFilled: 'Name' field is required.")
+	}
+	if expense.Date == "" {
+		return errors.New("checkIfAllFieldsAreFilled: 'Date' field is required.")
+	}
+	if expense.Type == BadType {
+		return errors.New("checkIfAllFieldsAreFilled: 'Type' field is required.")
+	}
+	if expense.Amount == 0.0 {
+		return errors.New("checkIfAllFieldsAreFilled: 'Amount' field is required.")
+	}
+	if expense.Currency == "" {
+		return errors.New("checkIfAllFieldsAreFilled: 'Currency' field is required.")
+	}
+
+	return nil
 }
 
 func addKeyAndValueToExpense(key, value string, expense *Expense) error {
@@ -85,9 +112,12 @@ func addKeyAndValueToExpense(key, value string, expense *Expense) error {
 			expense.Amount = float32(amount)
 		}
 	case "Currency":
+		if len(value) != 3 {
+			return errors.New("addKeyAndValueToExpense: currency string should follow ISO 4217 standard (3 letters only).")
+		}
 		expense.Currency = value
 	default:
-		errors.New("addKeyAndValueToExpense: unknown key.")
+		return errors.New("addKeyAndValueToExpense: unknown key.")
 	}
 
 	return nil
@@ -112,7 +142,7 @@ func GetStringAsExpenseType(expenseType string) (ExpenseType, error) {
 	case "Other":
 		return Other, nil
 	default:
-		return Other, errors.New("GetStringAsExpenseType: unknown expense type")
+		return BadType, errors.New("GetStringAsExpenseType: unknown expense type")
 	}
 }
 

@@ -149,7 +149,7 @@ func getExpenseFromRequestBody(writer http.ResponseWriter, request *http.Request
 
 	if err != nil {
 		writer.WriteHeader(http.StatusNotImplemented)
-		fmt.Fprint(writer, "Failed to parse string")
+		fmt.Fprint(writer, "Failed to parse string\n")
 		return data.Expense{}
 	}
 
