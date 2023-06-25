@@ -7,7 +7,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func deleteExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
+func DeleteExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
 	key := getKeyFromRequest(request)
 
 	if key == "all" {

@@ -7,7 +7,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func updateExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
+func UpdateExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
 	key := getKeyFromRequest(request)
 	expense := getExpenseFromRequestBody(writer, request)
 

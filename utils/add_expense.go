@@ -9,7 +9,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func addExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
+func PostExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
 	expense := getExpenseFromRequestBody(writer, request)
 
 	key := setExpense(writer, expense, redisClient)

@@ -1,4 +1,4 @@
-package utils
+package utils_test
 
 import (
 	"net/http"
@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/VilimRoller/Basic-CRUD/data"
+	"github.com/VilimRoller/Basic-CRUD/utils"
 	"github.com/go-redis/redis"
 )
 
@@ -16,7 +17,7 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 
 	//Add test data to DB
 	expense := testExpense
-	key, err := SetExpense(redisClientMock, &expense)
+	key, err := utils.SetExpense(redisClientMock, &expense)
 
 	if err != nil {
 		tst.Errorf("Set expense failed\n")
@@ -36,7 +37,7 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 	//Response recorder is used to capture the response of http request. Handler is used to pass redis client to request.
 	responseRecorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		updateExpense(writer, request, redisClientMock)
+		utils.UpdateExpense(writer, request, redisClientMock)
 	})
 
 	//Send the request
@@ -62,7 +63,7 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 		Currency: "USD",
 	}
 
-	updatedExpense, err := GetExpense(redisClientMock, key)
+	updatedExpense, err := utils.RetrieveExpense(redisClientMock, key)
 	if err != nil {
 		tst.Errorf("Failed to retrieve expense from Redis client mock\n")
 		tst.Fatal(err)

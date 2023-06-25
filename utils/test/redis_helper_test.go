@@ -1,10 +1,11 @@
-package utils
+package utils_test
 
 import (
 	"testing"
 
 	"github.com/VilimRoller/Basic-CRUD/data"
 
+	"github.com/VilimRoller/Basic-CRUD/utils"
 	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis"
 )
@@ -34,12 +35,12 @@ func TestSetAndGetExpense(tst *testing.T) {
 
 	expense := testExpense
 
-	key, err := SetExpense(client, &expense)
+	key, err := utils.SetExpense(client, &expense)
 	if err != nil {
 		tst.Errorf("Failed to set expense: %v\n", err)
 	}
 
-	retrievedExpense, err := GetExpense(client, key)
+	retrievedExpense, err := utils.RetrieveExpense(client, key)
 	if err != nil {
 		tst.Errorf("Failed to get expense: %v\n", err)
 	}
@@ -66,14 +67,14 @@ func TestSetExpenseWithKey(tst *testing.T) {
 
 	expense := testExpense
 
-	key := getUniqueKey()
-	err = SetExpenseWithKey(client, key, &expense)
+	key := utils.GetUniqueKey()
+	err = utils.SetExpenseWithKey(client, key, &expense)
 
 	if err != nil {
 		tst.Errorf("Failed to set expense with key: %v\n", err)
 	}
 
-	retrievedExpense, err := GetExpense(client, key)
+	retrievedExpense, err := utils.RetrieveExpense(client, key)
 	if err != nil {
 		tst.Errorf("Failed to get expense: %v\n", err)
 	}

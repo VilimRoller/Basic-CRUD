@@ -7,7 +7,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func getExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
+func GetExpense(writer http.ResponseWriter, request *http.Request, redisClient *redis.Client) {
 	key := getKeyFromRequest(request)
 
 	if key == "all" {
@@ -44,7 +44,7 @@ func getAllData(writer http.ResponseWriter, redisClient *redis.Client) {
 }
 
 func getExpenseWithKey(writer http.ResponseWriter, key string, redisClient *redis.Client) {
-	result, err := GetExpense(redisClient, key)
+	result, err := RetrieveExpense(redisClient, key)
 
 	if err != nil {
 		fmt.Fprintf(writer, "Key not found\n")

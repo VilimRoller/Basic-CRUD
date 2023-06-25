@@ -1,37 +1,39 @@
-package data
+package data_test
 
 import (
 	"errors"
 	"testing"
+
+	"github.com/VilimRoller/Basic-CRUD/data"
 )
 
-var testExpense Expense = Expense{
+var testExpense data.Expense = data.Expense{
 	Name:     "Testing tools",
 	Date:     "24-06-2023",
-	Type:     Cleaning,
+	Type:     data.Cleaning,
 	Amount:   120,
 	Currency: "EUR",
 }
 
 func TestGetExpenseTypeAsString(tst *testing.T) {
 	testCases := []struct {
-		expenseType    ExpenseType
+		expenseType    data.ExpenseType
 		expectedOutput string
 		expectedError  error
 	}{
-		{Food, "Food", nil},
-		{Cleaning, "Cleaning", nil},
-		{Utilities, "Utilities", nil},
-		{Transportation, "Transportation", nil},
-		{Entertainment, "Entertainment", nil},
-		{Health, "Health", nil},
-		{Recreation, "Recreation", nil},
-		{Other, "Other", nil},
-		{BadType, "", errors.New("GetExpenseTypeAsString: unknown expense type\n")},
+		{data.Food, "Food", nil},
+		{data.Cleaning, "Cleaning", nil},
+		{data.Utilities, "Utilities", nil},
+		{data.Transportation, "Transportation", nil},
+		{data.Entertainment, "Entertainment", nil},
+		{data.Health, "Health", nil},
+		{data.Recreation, "Recreation", nil},
+		{data.Other, "Other", nil},
+		{data.BadType, "", errors.New("GetExpenseTypeAsString: unknown expense type\n")},
 	}
 
 	for _, testCase := range testCases {
-		output, err := GetExpenseTypeAsString(testCase.expenseType)
+		output, err := data.GetExpenseTypeAsString(testCase.expenseType)
 
 		// Check if the output matches the expected value
 		if output != testCase.expectedOutput {
@@ -50,22 +52,22 @@ func TestGetExpenseTypeAsString(tst *testing.T) {
 func TestGetStringAsExpenseType(tst *testing.T) {
 	testCases := []struct {
 		input          string
-		expectedOutput ExpenseType
+		expectedOutput data.ExpenseType
 		expectedError  error
 	}{
-		{"Food", Food, nil},
-		{"Cleaning", Cleaning, nil},
-		{"Utilities", Utilities, nil},
-		{"Transportation", Transportation, nil},
-		{"Entertainment", Entertainment, nil},
-		{"Health", Health, nil},
-		{"Recreation", Recreation, nil},
-		{"Other", Other, nil},
-		{"Unknown", BadType, errors.New("GetStringAsExpenseType: unknown expense type\n")},
+		{"Food", data.Food, nil},
+		{"Cleaning", data.Cleaning, nil},
+		{"Utilities", data.Utilities, nil},
+		{"Transportation", data.Transportation, nil},
+		{"Entertainment", data.Entertainment, nil},
+		{"Health", data.Health, nil},
+		{"Recreation", data.Recreation, nil},
+		{"Other", data.Other, nil},
+		{"Unknown", data.BadType, errors.New("GetStringAsExpenseType: unknown expense type\n")},
 	}
 
 	for _, testCase := range testCases {
-		output, err := GetStringAsExpenseType(testCase.input)
+		output, err := data.GetStringAsExpenseType(testCase.input)
 
 		// Check if the output matches the expected value
 		if output != testCase.expectedOutput {
@@ -83,7 +85,7 @@ func TestGetStringAsExpenseType(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseUpdateName(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Name", "Testing equipment", &expense)
+	err := data.AddKeyAndValueToExpense("Name", "Testing equipment", &expense)
 
 	if err != nil {
 		tst.Errorf("Adding key and value to expense failed: %v\n", err)
@@ -95,7 +97,7 @@ func TestAddKeyAndValueToExpenseUpdateName(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseUpdateDate(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Date", "01-01-1970", &expense)
+	err := data.AddKeyAndValueToExpense("Date", "01-01-1970", &expense)
 
 	if err != nil {
 		tst.Errorf("Adding key and value to expense failed: %v\n", err)
@@ -107,19 +109,19 @@ func TestAddKeyAndValueToExpenseUpdateDate(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseUpdateExpenseType(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Type", "Entertainment", &expense)
+	err := data.AddKeyAndValueToExpense("Type", "Entertainment", &expense)
 
 	if err != nil {
 		tst.Errorf("Adding key and value to expense failed: %v\n", err)
 	}
-	if expense.Type != Entertainment {
+	if expense.Type != data.Entertainment {
 		tst.Errorf("Expense type was not updated correctly\n")
 	}
 }
 
 func TestAddKeyAndValueToExpenseUpdateAmount(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Amount", "150", &expense)
+	err := data.AddKeyAndValueToExpense("Amount", "150", &expense)
 
 	if err != nil {
 		tst.Errorf("Adding key and value to expense failed: %v", err)
@@ -132,7 +134,7 @@ func TestAddKeyAndValueToExpenseUpdateAmount(tst *testing.T) {
 func TestAddKeyAndValueToExpenseUpdateAmountWithEmptyInput(tst *testing.T) {
 	expense := testExpense
 	originalAmount := expense.Amount
-	err := addKeyAndValueToExpense("Amount", "", &expense)
+	err := data.AddKeyAndValueToExpense("Amount", "", &expense)
 
 	if err != nil {
 		tst.Errorf("Adding key and value to expense failed: %v\n", err)
@@ -144,7 +146,7 @@ func TestAddKeyAndValueToExpenseUpdateAmountWithEmptyInput(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseUpdateCurrecny(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Currency", "USD", &expense)
+	err := data.AddKeyAndValueToExpense("Currency", "USD", &expense)
 
 	if err != nil {
 		tst.Errorf("Adding key and value to expense failed: %v\n", err)
@@ -156,7 +158,7 @@ func TestAddKeyAndValueToExpenseUpdateCurrecny(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseUpdateCurrecnyWithBadInput(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Currency", "US", &expense)
+	err := data.AddKeyAndValueToExpense("Currency", "US", &expense)
 
 	if err == nil {
 		tst.Errorf("Error was expected for bad currency input\n")
@@ -165,7 +167,7 @@ func TestAddKeyAndValueToExpenseUpdateCurrecnyWithBadInput(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseUnknownKey(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("Bip bop", "Bing bong", &expense)
+	err := data.AddKeyAndValueToExpense("Bip bop", "Bing bong", &expense)
 
 	if err == nil {
 		tst.Errorf("Error was expected for unknown key\n")
@@ -174,7 +176,7 @@ func TestAddKeyAndValueToExpenseUnknownKey(tst *testing.T) {
 
 func TestAddKeyAndValueToExpenseEmptyKey(tst *testing.T) {
 	expense := testExpense
-	err := addKeyAndValueToExpense("", "Something", &expense)
+	err := data.AddKeyAndValueToExpense("", "Something", &expense)
 
 	if err == nil {
 		tst.Errorf("Error was expected for unknown key\n")
@@ -183,15 +185,15 @@ func TestAddKeyAndValueToExpenseEmptyKey(tst *testing.T) {
 
 func TestGetExpenseFromValidString(tst *testing.T) {
 	inputString := "Name: Running shoes\nDate: 01-05-2023\nType: Recreation\nAmount: 25.5\nCurrency: EUR"
-	expectedExpense := Expense{
+	expectedExpense := data.Expense{
 		Name:     "Running shoes",
 		Date:     "01-05-2023",
-		Type:     Recreation,
+		Type:     data.Recreation,
 		Amount:   25.5,
 		Currency: "EUR",
 	}
 
-	expense, err := GetExpenseFromString(inputString)
+	expense, err := data.GetExpenseFromString(inputString)
 	if err != nil {
 		tst.Errorf("Test case 1 failed: %v\n", err)
 	}
@@ -202,7 +204,7 @@ func TestGetExpenseFromValidString(tst *testing.T) {
 
 func TestGetExpenseFromStringWithMissingKeyValuePair(tst *testing.T) {
 	inputString := "Name: Running shoes\nType: Recreation\nAmount: 25.5\nCurrency: EUR"
-	_, err := GetExpenseFromString(inputString)
+	_, err := data.GetExpenseFromString(inputString)
 
 	if err == nil {
 		tst.Errorf("Expected an error for missing key-value pair\n")
@@ -211,7 +213,7 @@ func TestGetExpenseFromStringWithMissingKeyValuePair(tst *testing.T) {
 
 func TestGetExpenseFromStringWithInvalidValue(tst *testing.T) {
 	inputString := "Name: Running shoes\nDate: 01-05-2023\nType: Wrong expense\nAmount: 25.5\nCurrency: EUR"
-	_, err := GetExpenseFromString(inputString)
+	_, err := data.GetExpenseFromString(inputString)
 
 	if err == nil {
 		tst.Errorf("Expected an error for missing key-value pair\n")
@@ -220,7 +222,7 @@ func TestGetExpenseFromStringWithInvalidValue(tst *testing.T) {
 
 func TestGetExpenseFromStringWithMissingValue(tst *testing.T) {
 	inputString := "Name: Running shoes\nDate: 01-05-2023\nType: Recreation\nAmount:\nCurrency: EUR"
-	_, err := GetExpenseFromString(inputString)
+	_, err := data.GetExpenseFromString(inputString)
 
 	if err == nil {
 		tst.Errorf("Expected an error for missing key-value pair\n")
@@ -230,90 +232,90 @@ func TestGetExpenseFromStringWithMissingValue(tst *testing.T) {
 func TestCheckIfAllFieldsAreFilledValidExpense(tst *testing.T) {
 	expense := testExpense
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err != nil {
 		tst.Errorf("Fail: %v\n", err)
 	}
 }
 
 func TestCheckIfAllFieldsAreFilledMissingNameField(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Date:     "24-06-2023",
-		Type:     Cleaning,
+		Type:     data.Cleaning,
 		Amount:   120,
 		Currency: "EUR",
 	}
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err == nil {
 		tst.Errorf("Expected an error for missing 'Name' field\n")
 	}
 }
 
 func TestCheckIfAllFieldsAreFilledMissingDateField(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Name:     "Testing tools",
-		Type:     Cleaning,
+		Type:     data.Cleaning,
 		Amount:   120,
 		Currency: "EUR",
 	}
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err == nil {
 		tst.Errorf("Expected an error for missing 'Date' field\n")
 	}
 }
 
 func TestCheckIfAllFieldsAreFilledMissingTypeField(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Name:     "Testing tools",
 		Date:     "24-06-2023",
 		Amount:   120,
 		Currency: "EUR",
 	}
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err == nil {
 		tst.Errorf("Expected an error for missing 'Type' field\n")
 	}
 }
 
 func TestCheckIfAllFieldsAreFilledMissingAmountField(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Name:     "Testing tools",
 		Date:     "24-06-2023",
-		Type:     Cleaning,
+		Type:     data.Cleaning,
 		Currency: "EUR",
 	}
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err == nil {
 		tst.Errorf("Expected an error for missing 'Amount' field\n")
 	}
 }
 
 func TestCheckIfAllFieldsAreFilledMissingCurrencyField(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Name:   "Testing tools",
 		Date:   "24-06-2023",
-		Type:   Cleaning,
+		Type:   data.Cleaning,
 		Amount: 120,
 	}
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err == nil {
 		tst.Errorf("Expected an error for missing 'Currency' field\n")
 	}
 }
 
 func TestCheckIfAllFieldsAreFilledMissingMultipleFields(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Name:     "Testing tools",
-		Type:     Cleaning,
+		Type:     data.Cleaning,
 		Currency: "EUR",
 	}
 
-	err := checkIfAllFieldsAreFilled(&expense)
+	err := data.CheckIfAllFieldsAreFilled(&expense)
 	if err == nil {
 		tst.Errorf("Expected an error for missing 'Date' and 'Amount' fields\n")
 	}
@@ -334,10 +336,10 @@ func TestToStringValidString(tst *testing.T) {
 }
 
 func TestToStringInvalidString(tst *testing.T) {
-	expense := Expense{
+	expense := data.Expense{
 		Name:     "Bad expense",
 		Date:     "01-01-1970",
-		Type:     ExpenseType(100),
+		Type:     data.ExpenseType(100),
 		Amount:   50,
 		Currency: "EUR",
 	}

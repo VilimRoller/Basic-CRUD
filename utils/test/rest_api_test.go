@@ -1,9 +1,11 @@
-package utils
+package utils_test
 
 import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/VilimRoller/Basic-CRUD/utils"
 )
 
 func TestHome(tst *testing.T) {
@@ -16,7 +18,7 @@ func TestHome(tst *testing.T) {
 
 	//Serve the request
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(home)
+	handler := http.HandlerFunc(utils.Home)
 	handler.ServeHTTP(responseRecorder, request)
 
 	//Validate response
