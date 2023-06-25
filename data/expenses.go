@@ -41,7 +41,7 @@ func (expense Expense) ToString() (string, error) {
 	expenseType, err := GetExpenseTypeAsString(expense.Type)
 
 	if err != nil {
-		return "", errors.New("ToString: parsing type failed.")
+		return "", errors.New("ToString: parsing type failed\n")
 	}
 
 	return fmt.Sprintf("Name: %s\nDate: %s\nType: %s\nAmount: %.2f\nCurrency: %s\n", expense.Name, expense.Date, expenseType, expense.Amount, expense.Currency), nil
@@ -54,14 +54,14 @@ func GetExpenseFromString(inputStr string) (Expense, error) {
 	for _, element := range elements {
 		elementSubstring := strings.SplitN(element, ":", 2)
 		if len(elementSubstring) != 2 {
-			return returnVal, errors.New("GetExpenseFromString: parsing string failed.")
+			return returnVal, errors.New("GetExpenseFromString: parsing string failed.\n")
 		}
 
 		key := strings.TrimSpace(elementSubstring[0])
 		value := strings.TrimSpace(elementSubstring[1])
 		err := addKeyAndValueToExpense(key, value, &returnVal)
 		if err != nil {
-			return returnVal, errors.New("GetExpenseFromString: adding key and value to expense failed.")
+			return returnVal, errors.New("GetExpenseFromString: adding key and value to expense failed.\n")
 		}
 	}
 
@@ -76,19 +76,19 @@ func GetExpenseFromString(inputStr string) (Expense, error) {
 
 func checkIfAllFieldsAreFilled(expense *Expense) error {
 	if expense.Name == "" {
-		return errors.New("checkIfAllFieldsAreFilled: 'Name' field is required.")
+		return errors.New("checkIfAllFieldsAreFilled: 'Name' field is required.\n")
 	}
 	if expense.Date == "" {
-		return errors.New("checkIfAllFieldsAreFilled: 'Date' field is required.")
+		return errors.New("checkIfAllFieldsAreFilled: 'Date' field is required.\n")
 	}
 	if expense.Type == BadType {
-		return errors.New("checkIfAllFieldsAreFilled: 'Type' field is required.")
+		return errors.New("checkIfAllFieldsAreFilled: 'Type' field is required.\n")
 	}
 	if expense.Amount == 0.0 {
-		return errors.New("checkIfAllFieldsAreFilled: 'Amount' field is required.")
+		return errors.New("checkIfAllFieldsAreFilled: 'Amount' field is required.\n")
 	}
 	if expense.Currency == "" {
-		return errors.New("checkIfAllFieldsAreFilled: 'Currency' field is required.")
+		return errors.New("checkIfAllFieldsAreFilled: 'Currency' field is required.\n")
 	}
 
 	return nil
@@ -103,7 +103,7 @@ func addKeyAndValueToExpense(key, value string, expense *Expense) error {
 	case "Type":
 		expenseType, err := GetStringAsExpenseType(value)
 		if err != nil {
-			return errors.New("addKeyAndValueToExpense: parsing type failed.")
+			return errors.New("addKeyAndValueToExpense: parsing type failed.\n")
 		}
 		expense.Type = expenseType
 	case "Amount":
@@ -113,11 +113,11 @@ func addKeyAndValueToExpense(key, value string, expense *Expense) error {
 		}
 	case "Currency":
 		if len(value) != 3 {
-			return errors.New("addKeyAndValueToExpense: currency string should follow ISO 4217 standard (3 letters only).")
+			return errors.New("addKeyAndValueToExpense: currency string should follow ISO 4217 standard (3 letters only).\n")
 		}
 		expense.Currency = value
 	default:
-		return errors.New("addKeyAndValueToExpense: unknown key.")
+		return errors.New("addKeyAndValueToExpense: unknown key.\n")
 	}
 
 	return nil
@@ -142,7 +142,7 @@ func GetStringAsExpenseType(expenseType string) (ExpenseType, error) {
 	case "Other":
 		return Other, nil
 	default:
-		return BadType, errors.New("GetStringAsExpenseType: unknown expense type")
+		return BadType, errors.New("GetStringAsExpenseType: unknown expense type\n")
 	}
 }
 
@@ -165,6 +165,6 @@ func GetExpenseTypeAsString(expenseType ExpenseType) (string, error) {
 	case Other:
 		return "Other", nil
 	default:
-		return "", errors.New("GetExpenseTypeAsString: unknown expense type")
+		return "", errors.New("GetExpenseTypeAsString: unknown expense type\n")
 	}
 }
