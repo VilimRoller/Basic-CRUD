@@ -1,0 +1,13 @@
+version: '3'
+services:
+  basic-crud:
+    image: basic-crud
+    ports:
+      - 8080:8080
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
