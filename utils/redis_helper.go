@@ -51,7 +51,7 @@ func SetExpense(redisClient *redis.Client, expense *data.Expense) (string, error
 		return "", errors.New("SetExpense: Json marshal failed\nError: " + err.Error() + "\n")
 	}
 
-	key := getUniqueKey()
+	key := GetUniqueKey()
 
 	err = redisClient.Set(key, jsonVal, 0).Err()
 
@@ -62,11 +62,11 @@ func SetExpense(redisClient *redis.Client, expense *data.Expense) (string, error
 	return key, nil
 }
 
-func GetExpense(redisClient *redis.Client, key string) (data.Expense, error) {
+func RetrieveExpense(redisClient *redis.Client, key string) (data.Expense, error) {
 	returnValueString, err := redisClient.Get(key).Result()
 
 	if err != nil {
-		return data.EmptyExpense, errors.New("GetExpense: Retrieving key from DB failed\nError: " + err.Error() + "\n")
+		return data.EmptyExpense, errors.New("RetrieveExpense: Retrieving key from DB failed\nError: " + err.Error() + "\n")
 	}
 
 	var returnValue data.Expense
@@ -74,13 +74,13 @@ func GetExpense(redisClient *redis.Client, key string) (data.Expense, error) {
 	err = json.Unmarshal([]byte(returnValueString), &returnValue)
 
 	if err != nil {
-		return data.EmptyExpense, errors.New("GetExpense: Json unmarshal failed\nError: " + err.Error() + "\n")
+		return data.EmptyExpense, errors.New("RetrieveExpense: Json unmarshal failed\nError: " + err.Error() + "\n")
 	}
 
 	return returnValue, nil
 }
 
-func getUniqueKey() string {
+func GetUniqueKey() string {
 	uniqueId := uuid.New()
 	return uniqueId.String()
 }

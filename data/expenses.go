@@ -59,13 +59,13 @@ func GetExpenseFromString(inputStr string) (Expense, error) {
 
 		key := strings.TrimSpace(elementSubstring[0])
 		value := strings.TrimSpace(elementSubstring[1])
-		err := addKeyAndValueToExpense(key, value, &returnVal)
+		err := AddKeyAndValueToExpense(key, value, &returnVal)
 		if err != nil {
 			return returnVal, errors.New("GetExpenseFromString: adding key and value to expense failed.\n")
 		}
 	}
 
-	err := checkIfAllFieldsAreFilled(&returnVal)
+	err := CheckIfAllFieldsAreFilled(&returnVal)
 
 	if err != nil {
 		return returnVal, err
@@ -74,7 +74,7 @@ func GetExpenseFromString(inputStr string) (Expense, error) {
 	return returnVal, nil
 }
 
-func checkIfAllFieldsAreFilled(expense *Expense) error {
+func CheckIfAllFieldsAreFilled(expense *Expense) error {
 	if expense.Name == "" {
 		return errors.New("checkIfAllFieldsAreFilled: 'Name' field is required.\n")
 	}
@@ -94,7 +94,7 @@ func checkIfAllFieldsAreFilled(expense *Expense) error {
 	return nil
 }
 
-func addKeyAndValueToExpense(key, value string, expense *Expense) error {
+func AddKeyAndValueToExpense(key, value string, expense *Expense) error {
 	switch key {
 	case "Name":
 		expense.Name = value
