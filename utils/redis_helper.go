@@ -3,7 +3,6 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 
 	"github.com/VilimRoller/Basic-CRUD/data"
 	"github.com/go-redis/redis"
@@ -23,13 +22,13 @@ func GetDefaultRedisClient() *redis.Client {
 func SetExpenseWithKey(redisClient *redis.Client, key string, expense *data.Expense) error {
 	jsonVal, err := json.Marshal(expense)
 	if err != nil {
-		return errors.New("SetExpenseWithKey: Json marshal failed\n")
+		return errors.New("SetExpenseWithKey: Json marshal failed\nError: " + err.Error() + "\n")
 	}
 
 	err = redisClient.Set(key, jsonVal, 0).Err()
 
 	if err != nil {
-		return errors.New("SetExpenseWithKey: Adding data to DB failed\n")
+		return errors.New("SetExpenseWithKey: Adding data to DB failed\nError: " + err.Error() + "\n")
 	}
 
 	return nil
@@ -38,8 +37,7 @@ func SetExpenseWithKey(redisClient *redis.Client, key string, expense *data.Expe
 func SetExpense(redisClient *redis.Client, expense *data.Expense) (string, error) {
 	jsonVal, err := json.Marshal(expense)
 	if err != nil {
-		fmt.Println(err)
-		return "", errors.New("SetExpense: Json marshal failed\n")
+		return "", errors.New("SetExpense: Json marshal failed\nError: " + err.Error() + "\n")
 	}
 
 	key := getUniqueKey()
@@ -47,8 +45,7 @@ func SetExpense(redisClient *redis.Client, expense *data.Expense) (string, error
 	err = redisClient.Set(key, jsonVal, 0).Err()
 
 	if err != nil {
-		fmt.Println(err)
-		return "", errors.New("SetExpense: Adding data to DB failed\n")
+		return "", errors.New("SetExpense: Adding data to DB failed\nError: " + err.Error() + "\n")
 	}
 
 	return key, nil
@@ -58,7 +55,7 @@ func GetExpense(redisClient *redis.Client, key string) (data.Expense, error) {
 	returnValueString, err := redisClient.Get(key).Result()
 
 	if err != nil {
-		return data.EmptyExpense, errors.New("GetExpense: Retrieving key from DB failed\n")
+		return data.EmptyExpense, errors.New("GetExpense: Retrieving key from DB failed\nError: " + err.Error() + "\n")
 	}
 
 	var returnValue data.Expense
@@ -66,8 +63,7 @@ func GetExpense(redisClient *redis.Client, key string) (data.Expense, error) {
 	err = json.Unmarshal([]byte(returnValueString), &returnValue)
 
 	if err != nil {
-		fmt.Println(err)
-		return data.EmptyExpense, errors.New("GetExpense: Json unmarshal failed\n")
+		return data.EmptyExpense, errors.New("GetExpense: Json unmarshal failed\nError: " + err.Error() + "\n")
 	}
 
 	return returnValue, nil
