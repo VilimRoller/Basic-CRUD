@@ -15,7 +15,7 @@ func TestHome(tst *testing.T) {
 	//Create GET request
 	request, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
-		tst.Errorf("GET request creation failed")
+		tst.Errorf("GET request creation failed\n")
 		tst.Fatal(err)
 	}
 
@@ -27,12 +27,12 @@ func TestHome(tst *testing.T) {
 	//Validate response
 	status := responseRecorder.Code
 	if status != http.StatusOK {
-		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v", status, http.StatusOK)
+		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 	}
 
-	expectedResponse := "Api is running!"
+	expectedResponse := "Api is running!\n"
 	if responseRecorder.Body.String() != expectedResponse {
-		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v", responseRecorder.Body.String(), expectedResponse)
+		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
 }
 
@@ -43,7 +43,7 @@ func TestGetExpenseHandler(tst *testing.T) {
 
 	key, err := SetExpense(redisClientMock, &expense)
 	if err != nil {
-		tst.Errorf("Set expense failed")
+		tst.Errorf("Set expense failed\n")
 		tst.Fatal(err)
 	}
 
@@ -51,7 +51,7 @@ func TestGetExpenseHandler(tst *testing.T) {
 	queryParameter := "/Basic-Crud/expenses?key=" + key
 	getRequest, err := http.NewRequest("GET", queryParameter, nil)
 	if err != nil {
-		tst.Errorf("GET request creation failed")
+		tst.Errorf("GET request creation failed\n")
 		tst.Fatal(err)
 	}
 
@@ -67,12 +67,12 @@ func TestGetExpenseHandler(tst *testing.T) {
 	////Check if request was successful
 	status := responseRecorder.Code
 	if status != http.StatusOK {
-		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v", status, http.StatusOK)
+		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 	}
 
 	expectedResponse := "Name: Testing tools\nDate: 17-02-2023\nType: Cleaning\nAmount: 123.00\nCurrency: EUR\n"
 	if responseRecorder.Body.String() != expectedResponse {
-		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v", responseRecorder.Body.String(), expectedResponse)
+		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
 }
 
@@ -84,7 +84,7 @@ func TestAddExpenseHandler(tst *testing.T) {
 	payload := "Name: Testing tools\nDate: 17-02-2023\nType: Cleaning\nAmount: 123.0\nCurrency: EUR"
 	postRequest, err := http.NewRequest("POST", "/Basic-Crud/expenses", strings.NewReader(payload))
 	if err != nil {
-		tst.Errorf(("POST request creation failed"))
+		tst.Errorf(("POST request creation failed\n"))
 	}
 
 	//Response recorder is used to capture the response of http request. Handler is used to pass redis client to request.
@@ -99,20 +99,20 @@ func TestAddExpenseHandler(tst *testing.T) {
 	//Check if request was successful
 	status := responseRecorder.Code
 	if status != http.StatusOK {
-		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v", status, http.StatusOK)
+		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 		tst.Fatal(err)
 	}
 
 	// Retrieve the response body
 	responseBody, err := ioutil.ReadAll(responseRecorder.Body)
 	if err != nil {
-		tst.Errorf(("Failed to read response body"))
+		tst.Errorf(("Failed to read response body\n"))
 		tst.Fatal(err)
 	}
 
 	// Verify that the response body contains the key
 	if !strings.Contains(string(responseBody), "key = ") {
-		tst.Errorf("Handler did not return expected body. Reponse body:%v", string(responseBody))
+		tst.Errorf("Handler did not return expected body. Reponse body:%v\n", string(responseBody))
 		tst.Fatal(err)
 	}
 
@@ -126,12 +126,12 @@ func TestAddExpenseHandler(tst *testing.T) {
 	receivedReponse, err := GetExpense(redisClientMock, key)
 
 	if err != nil {
-		tst.Errorf("Failed to retrieve expense from Redis client mock")
+		tst.Errorf("Failed to retrieve expense from Redis client mock\n")
 		tst.Fatal(err)
 	}
 
 	if expectedResponse != receivedReponse {
-		tst.Errorf("Received response is not equal to expected response")
+		tst.Errorf("Received response is not equal to expected response\n")
 	}
 }
 
@@ -144,7 +144,7 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 	key, err := SetExpense(redisClientMock, &expense)
 
 	if err != nil {
-		tst.Errorf("Set expense failed")
+		tst.Errorf("Set expense failed\n")
 		tst.Fatal(err)
 	}
 
@@ -154,7 +154,7 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 	putRequest, err := http.NewRequest("PUT", queryParameter, strings.NewReader(payloadUpdate))
 
 	if err != nil {
-		tst.Errorf("PUT request creation failed")
+		tst.Errorf("PUT request creation failed\n")
 		tst.Fatal(err)
 	}
 
@@ -170,12 +170,12 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 	//Check if request was successful
 	status := responseRecorder.Code
 	if status != http.StatusOK {
-		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v", status, http.StatusOK)
+		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 	}
 
-	expectedResponse := "Update successful!"
+	expectedResponse := "Update successful!\n"
 	if responseRecorder.Body.String() != expectedResponse {
-		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v", responseRecorder.Body.String(), expectedResponse)
+		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
 
 	//Check if data was updated successfully
@@ -189,12 +189,12 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 
 	updatedExpense, err := GetExpense(redisClientMock, key)
 	if err != nil {
-		tst.Errorf("Failed to retrieve expense from Redis client mock")
+		tst.Errorf("Failed to retrieve expense from Redis client mock\n")
 		tst.Fatal(err)
 	}
 
 	if updatedExpense != expectedUpdatedExpense {
-		tst.Errorf("Update failed. Expense value is not equal to expected expense value")
+		tst.Errorf("Update failed. Expense value is not equal to expected expense value\n")
 	}
 
 }
@@ -207,7 +207,7 @@ func TestDeleteExpenseHandler(tst *testing.T) {
 	expense := testExpense
 	key, err := SetExpense(redisClientMock, &expense)
 	if err != nil {
-		tst.Errorf("Set expense failed")
+		tst.Errorf("Set expense failed\n")
 		tst.Fatal(err)
 	}
 
@@ -215,7 +215,7 @@ func TestDeleteExpenseHandler(tst *testing.T) {
 	queryParameter := "/Basic-Crud/expenses?key=" + key
 	deleteRequest, err := http.NewRequest("DELETE", queryParameter, nil)
 	if err != nil {
-		tst.Errorf("DELETE request creation failed")
+		tst.Errorf("DELETE request creation failed\n")
 		tst.Fatal(err)
 	}
 
@@ -231,18 +231,18 @@ func TestDeleteExpenseHandler(tst *testing.T) {
 	//Check if request was successful
 	status := responseRecorder.Code
 	if status != http.StatusOK {
-		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v", status, http.StatusOK)
+		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 	}
 
 	//Check if deletion was successful
-	expectedResponse := "Delete successful!"
+	expectedResponse := "Delete successful!\n"
 	if responseRecorder.Body.String() != expectedResponse {
-		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v", responseRecorder.Body.String(), expectedResponse)
+		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
 
 	// Verify deletion
 	_, err = GetExpense(redisClientMock, key)
 	if err == nil {
-		tst.Errorf("Expense with key %s still exists after deletion", key)
+		tst.Errorf("Expense with key %s still exists after deletion\n", key)
 	}
 }

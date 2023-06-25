@@ -11,7 +11,7 @@ import (
 )
 
 func RegisterEndpoints(redisClient *redis.Client) {
-	fmt.Println("Registering endpoints")
+	fmt.Println("Application is running!")
 
 	//Define closures
 	getExpenseHandler := func(writer http.ResponseWriter, request *http.Request) {
@@ -41,7 +41,7 @@ func RegisterEndpoints(redisClient *redis.Client) {
 }
 
 func home(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(writer, "Api is running!")
+	fmt.Fprintf(writer, "Api is running!\n")
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -65,7 +65,7 @@ func getAllData(writer http.ResponseWriter, redisClient *redis.Client) {
 	keys, err := redisClient.Keys("*").Result()
 
 	if err != nil {
-		fmt.Fprintf(writer, "Failed to retrieve all data")
+		fmt.Fprintf(writer, "Failed to retrieve all data\n")
 		return
 	}
 
@@ -83,7 +83,7 @@ func getExpenseWithKey(writer http.ResponseWriter, key string, redisClient *redi
 	result, err := GetExpense(redisClient, key)
 
 	if err != nil {
-		fmt.Fprintf(writer, "Key not found")
+		fmt.Fprintf(writer, "Key not found\n")
 		writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -91,7 +91,7 @@ func getExpenseWithKey(writer http.ResponseWriter, key string, redisClient *redi
 	stringResult, err := result.ToString()
 
 	if err != nil {
-		fmt.Fprintf(writer, "Converting result to string failed")
+		fmt.Fprintf(writer, "Converting result to string failed\n")
 		writer.WriteHeader(http.StatusNotImplemented)
 		return
 	}
@@ -115,7 +115,7 @@ func setExpense(writer http.ResponseWriter, expense data.Expense, redisClient *r
 
 	if err != nil {
 		writer.WriteHeader(http.StatusNotImplemented)
-		fmt.Fprint(writer, "Failed to add value to DB")
+		fmt.Fprint(writer, "Failed to add value to DB\n")
 		return ""
 	}
 
@@ -127,7 +127,7 @@ func setExpenseWithKey(writer http.ResponseWriter, expense data.Expense, key str
 
 	if err != nil {
 		writer.WriteHeader(http.StatusNotImplemented)
-		fmt.Fprint(writer, "Failed to update value in DB")
+		fmt.Fprint(writer, "Failed to update value in DB\n")
 		return err
 	}
 
@@ -139,7 +139,7 @@ func getExpenseFromRequestBody(writer http.ResponseWriter, request *http.Request
 
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(writer, "Failed to read request body")
+		fmt.Fprint(writer, "Failed to read request body\n")
 		return data.Expense{}
 	}
 
@@ -166,7 +166,7 @@ func updateExpense(writer http.ResponseWriter, request *http.Request, redisClien
 		return
 	}
 
-	fmt.Fprintf(writer, "Update successful!")
+	fmt.Fprintf(writer, "Update successful!\n")
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -185,7 +185,7 @@ func deleteExpense(writer http.ResponseWriter, request *http.Request, redisClien
 		return
 	}
 
-	fmt.Fprintf(writer, "Delete successful!")
+	fmt.Fprintf(writer, "Delete successful!\n")
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -193,6 +193,6 @@ func deleteAllExpenses(writer http.ResponseWriter, redisClient *redis.Client) {
 	err := redisClient.FlushAll().Err()
 
 	if err != nil {
-		fmt.Fprintf(writer, "FlushAll failed")
+		fmt.Fprintf(writer, "FlushAll failed\n")
 	}
 }

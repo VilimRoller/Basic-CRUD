@@ -21,7 +21,7 @@ func TestSetAndGetExpense(tst *testing.T) {
 	// Start a local Redis server for testing
 	redisTestServer, err := miniredis.Run()
 	if err != nil {
-		tst.Fatalf("Failed to start redis test server: %v", err)
+		tst.Fatalf("Failed to start redis test server: %v\n", err)
 	}
 
 	//Close the connection after test
@@ -36,16 +36,16 @@ func TestSetAndGetExpense(tst *testing.T) {
 
 	key, err := SetExpense(client, &expense)
 	if err != nil {
-		tst.Errorf("Failed to set expense: %v", err)
+		tst.Errorf("Failed to set expense: %v\n", err)
 	}
 
 	retrievedExpense, err := GetExpense(client, key)
 	if err != nil {
-		tst.Errorf("Failed to get expense: %v", err)
+		tst.Errorf("Failed to get expense: %v\n", err)
 	}
 
 	if retrievedExpense != expense {
-		tst.Errorf("Retrieved expense does not match the original expense")
+		tst.Errorf("Retrieved expense does not match the original expense\n")
 	}
 }
 
@@ -53,7 +53,7 @@ func TestSetExpenseWithKey(tst *testing.T) {
 	// Start a local Redis server for testing
 	redisTestServer, err := miniredis.Run()
 	if err != nil {
-		tst.Fatalf("Failed to start redis test server: %v", err)
+		tst.Fatalf("Failed to start redis test server: %v\n", err)
 	}
 
 	//Close the connection after test
@@ -70,15 +70,15 @@ func TestSetExpenseWithKey(tst *testing.T) {
 	err = SetExpenseWithKey(client, key, &expense)
 
 	if err != nil {
-		tst.Errorf("Failed to set expense with key: %v", err)
+		tst.Errorf("Failed to set expense with key: %v\n", err)
 	}
 
 	retrievedExpense, err := GetExpense(client, key)
 	if err != nil {
-		tst.Errorf("Failed to get expense: %v", err)
+		tst.Errorf("Failed to get expense: %v\n", err)
 	}
 
 	if retrievedExpense != expense {
-		tst.Errorf("Retrieved expense does not match the original expense")
+		tst.Errorf("Retrieved expense does not match the original expense\n")
 	}
 }
