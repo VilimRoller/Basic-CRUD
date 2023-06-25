@@ -11,8 +11,6 @@ import (
 )
 
 func RegisterEndpoints(redisClient *redis.Client) {
-	fmt.Println("Application is running!")
-
 	//Define closures
 	getExpenseHandler := func(writer http.ResponseWriter, request *http.Request) {
 		getExpense(writer, request, redisClient)
@@ -41,7 +39,7 @@ func RegisterEndpoints(redisClient *redis.Client) {
 }
 
 func home(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(writer, "Api is running!\n")
+	fmt.Fprintf(writer, "Api is running!")
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -182,7 +180,7 @@ func updateExpense(writer http.ResponseWriter, request *http.Request, redisClien
 		return
 	}
 
-	fmt.Fprintf(writer, "Update successful!\n")
+	fmt.Fprintf(writer, "Update successful!")
 	writer.WriteHeader(http.StatusOK)
 }
 
@@ -203,7 +201,7 @@ func deleteExpense(writer http.ResponseWriter, request *http.Request, redisClien
 		return
 	}
 
-	fmt.Fprintf(writer, "Delete successful!\n")
+	fmt.Fprintf(writer, "Delete successful!")
 	writer.WriteHeader(http.StatusOK)
 }
 

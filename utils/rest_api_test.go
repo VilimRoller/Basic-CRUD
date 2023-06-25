@@ -30,7 +30,7 @@ func TestHome(tst *testing.T) {
 		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 	}
 
-	expectedResponse := "Api is running!\n"
+	expectedResponse := "Api is running!"
 	if responseRecorder.Body.String() != expectedResponse {
 		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
@@ -173,7 +173,7 @@ func TestUpdateExpenseHandler(tst *testing.T) {
 		tst.Errorf("Handler returned wrong status code.\n Received: %v Expected: %v\n", status, http.StatusOK)
 	}
 
-	expectedResponse := "Update successful!\n"
+	expectedResponse := "Update successful!"
 	if responseRecorder.Body.String() != expectedResponse {
 		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
@@ -235,7 +235,7 @@ func TestDeleteExpenseHandler(tst *testing.T) {
 	}
 
 	//Check if deletion was successful
-	expectedResponse := "Delete successful!\n"
+	expectedResponse := "Delete successful!"
 	if responseRecorder.Body.String() != expectedResponse {
 		tst.Errorf("Handler did not return expected body.\n Received: %v Expected: %v\n", responseRecorder.Body.String(), expectedResponse)
 	}
