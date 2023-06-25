@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"errors"
+	"os"
 
 	"github.com/VilimRoller/Basic-CRUD/data"
 	"github.com/go-redis/redis"
@@ -10,13 +11,23 @@ import (
 )
 
 func GetDefaultRedisClient() *redis.Client {
+	address := getRedisAddress()
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     address,
 		Password: "",
 		DB:       0,
 	})
 
 	return client
+}
+
+func getRedisAddress() string {
+	address := os.Getenv("REDIS_ADDRESS")
+	if address == "" {
+		address = "localhost:6379"
+	}
+
+	return address
 }
 
 func SetExpenseWithKey(redisClient *redis.Client, key string, expense *data.Expense) error {
