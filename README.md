@@ -15,7 +15,7 @@ Basic-CRUD is a simple CRUD (Create, Read, Update, Delete) application built wit
 ```
 git clone https://github.com/VilimRoller/Basic-CRUD.git
 ```
-3. Build Docker image
+2. Build Docker image
 ```
 docker build -t basic-crud .
 ```
