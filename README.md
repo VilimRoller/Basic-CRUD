@@ -1,6 +1,19 @@
 # Basic-CRUD
 Basic-CRUD is a simple CRUD (Create, Read, Update, Delete) application built with Golang. It provides a REST API for managing expenses stored in a Redis database. The application uses Gorilla Mux for HTTP router and Redis for database.
 
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Testing](#testing)
+- [API Endpoints](#api-endpoints)
+  - [Home](#home)
+  - [Add an expense](#add-an-expense)
+  - [Retrieve an expense](#retrieve-an-expense)
+  - [Update an expense](#update-an-expense)
+  - [Delete an expense](#delete-an-expense)
+
 ## Features
 - Add new expense
 - Retrieve and existing expense
